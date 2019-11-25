@@ -82,9 +82,9 @@ void thread1(void *params) {
 
 	startTime = xTaskGetTickCount();
 
+	// para el instante critico.
 	if (instance == 0) {
 		startTime = 0;
-		pc.printf("Primera instancia, time en: %d\n\r", endTime);
 	}
 
 	while (1) {
