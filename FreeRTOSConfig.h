@@ -82,7 +82,7 @@
  *
  * See http://www.freertos.org/a00110.html.
  *----------------------------------------------------------*/
-#include "lpc17xx.h"
+#include "LPC17xx.h"
 
 #include <stdint.h>
 extern uint32_t SystemCoreClock;
