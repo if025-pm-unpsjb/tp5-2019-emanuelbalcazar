@@ -43,8 +43,9 @@ int main() {
 	// TODO cambiar el 3 por una variable calculada
 	for (int i = 0; i < 3; i++) {
 		Task *task = &(setr[i]);
-		xTaskCreate(thread1, task->name, 128, (void*) task, configMAX_PRIORITIES - task->priority,
-		NULL);
+		xTaskCreate(thread1, task->name, 128, (void*) task,
+				configMAX_PRIORITIES - task->priority,
+				NULL);
 	}
 
 	vTraceEnable( TRC_START);
@@ -65,8 +66,7 @@ void thread1(void *params) {
 	while (1) {
 		xLastWakeTime = xTaskGetTickCount();
 
-		/*printf("\nTarea: %s - inicio: %d - fin: %d - instancia: %d\n\r",
-				task->name, xLastWakeTime, xFrequency, instance);*/
+		//pc.printf("\nTarea: %d\n\r", (int)xFrequency);
 		led1 = !led1;
 		vTaskDelayUntil(&xLastWakeTime, xFrequency);
 		instance++;
