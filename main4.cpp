@@ -43,9 +43,9 @@ int main() {
 	// TODO cambiar el 3 por una variable calculada
 	for (int i = 0; i < 3; i++) {
 		Task *task = &(setr[i]);
-		xTaskCreate(thread1, task->name, 128, (void*) task,
-				configMAX_PRIORITIES - task->priority,
-				NULL);
+		xTaskCreate(thread1, task->name, 256, (void*) task,
+		configMAX_PRIORITIES - task->priority,
+		NULL);
 	}
 
 	vTraceEnable( TRC_START);
@@ -55,20 +55,34 @@ int main() {
 		;
 }
 
+void wait_without_block(int ticks) {
+	while ((int)xTaskGetTickCount() <= ticks) {
+		//…
+	}
+
+	return;
+}
+
 void thread1(void *params) {
 	// get current task
 	Task *task = (Task*) params;
 
-	TickType_t xLastWakeTime = 0;
-	const TickType_t xFrequency = task->t * 100;
+	TickType_t startTime = 0;
+	TickType_t endTime = 0;
+
+	const TickType_t xFrequency = task->t * 1000;
 	int instance = 0;
 
 	while (1) {
-		xLastWakeTime = xTaskGetTickCount();
+		startTime = xTaskGetTickCount();
 
-		//pc.printf("\nTarea: %d\n\r", (int)xFrequency);
 		led1 = !led1;
-		vTaskDelayUntil(&xLastWakeTime, xFrequency);
+		wait_without_block(task->c * 1000);
+
+		endTime = xTaskGetTickCount();
+		pc.printf("Tarea [%s] - inicio: %d - fin: %d - instancia: %d\n\r", task->name, startTime, endTime, instance);
+
+		vTaskDelayUntil(&startTime, xFrequency);
 		instance++;
 	}
 }
