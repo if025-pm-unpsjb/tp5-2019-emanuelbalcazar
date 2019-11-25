@@ -58,13 +58,10 @@ int main() {
 }
 
 void wait_without_block(TickType_t ticks) {
-	TickType_t currentTick = 0;
+	TickType_t currentTick = xTaskGetTickCount();
 
-	while (1) {
-		currentTick++;
-		if (currentTick > ticks) {
-			break;
-		}
+	while (xTaskGetTickCount() - currentTick < ticks) {
+
 	}
 
 	return;
