@@ -50,14 +50,21 @@ int main() {
 
 	vTraceEnable( TRC_START);
 
+	pc.printf("\nIniciando planificador...\n\r");
+
 	vTaskStartScheduler();
 	for (;;)
 		;
 }
 
-void wait_without_block(int ticks) {
-	while ((int)xTaskGetTickCount() <= ticks) {
-		//…
+void wait_without_block(TickType_t ticks) {
+	TickType_t currentTick = 0;
+
+	while (1) {
+		currentTick++;
+		if (currentTick > ticks) {
+			break;
+		}
 	}
 
 	return;
@@ -73,14 +80,21 @@ void thread1(void *params) {
 	const TickType_t xFrequency = task->t * 1000;
 	int instance = 0;
 
+	startTime = xTaskGetTickCount();
+
+	if (instance == 0) {
+		startTime = 0;
+		pc.printf("Primera instancia, time en: %d\n\r", endTime);
+	}
+
 	while (1) {
-		startTime = xTaskGetTickCount();
 
 		led1 = !led1;
 		wait_without_block(task->c * 1000);
-
 		endTime = xTaskGetTickCount();
-		pc.printf("Tarea [%s] - inicio: %d - fin: %d - instancia: %d\n\r", task->name, startTime, endTime, instance);
+
+		pc.printf("Tarea [%s] - inicio: %d - fin: %d - instancia: %d\n\r",
+				task->name, startTime, endTime, instance);
 
 		vTaskDelayUntil(&startTime, xFrequency);
 		instance++;
