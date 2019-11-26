@@ -5,7 +5,7 @@
 Serial pc(USBTX, USBRX); // tx, rx
 DigitalOut led1(LED1);
 
-// kkkkk
+// SYSTEM 0, 1 o 2
 const int SYSTEM = 0;
 
 void thread1(void*);
@@ -34,14 +34,29 @@ Task* get_system(int number) {
 	return setr;
 }
 
+int get_length(int number) {
+	if (number == 0) {
+		return 3;
+	} else if (number == 1) {
+		return 3;
+	} else if (number == 2) {
+		return 4;
+	}
+
+	return 0;
+}
+
 int main() {
 	// Initializes the trace recorder, but does not start the tracing.
 	vTraceEnable( TRC_INIT);
 
 	Task *setr = get_system(SYSTEM);
+	int length = get_length(SYSTEM);
+
+	printf("> \nlength %d\n\r", length);
 
 	// TODO cambiar el 3 por una variable calculada
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < length; i++) {
 		Task *task = &(setr[i]);
 		xTaskCreate(thread1, task->name, 256, (void*) task,
 		configMAX_PRIORITIES - task->priority,
@@ -50,7 +65,7 @@ int main() {
 
 	vTraceEnable( TRC_START);
 
-	pc.printf("\nIniciando planificador...\n\r");
+	pc.printf("Iniciando planificador...\n\r");
 
 	vTaskStartScheduler();
 	for (;;)
