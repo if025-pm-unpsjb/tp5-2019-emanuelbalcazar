@@ -19,11 +19,11 @@ struct Task {
 	int d;
 };
 
-Task task1 = { "t1", 1, 2, 3, 4 };
-Task task2 = { "t2", 1, 2, 3, 5 };
+Task task1 = { "t1", 1, 1, 3, 4 };
+Task task2 = { "t2", 1, 4, 3, 5 };
 Task task3 = { "t3", 1, 2, 3, 6 };
-Task task4 = { "t4", 1, 2, 3, 6 };
-Task task5 = { "t5", 1, 2, 3, 6 };
+Task task4 = { "t4", 1, 4, 3, 6 };
+Task task5 = { "t5", 1, 4, 3, 6 };
 
 Task *t1 = &task1;
 Task *t2 = &task2;
