@@ -34,6 +34,7 @@ Task* get_system(int number) {
 	return setr;
 }
 
+// TODO arreglar algun dia
 int get_length(int number) {
 	if (number == 0) {
 		return 3;
@@ -53,9 +54,6 @@ int main() {
 	Task *setr = get_system(SYSTEM);
 	int length = get_length(SYSTEM);
 
-	printf("> \nlength %d\n\r", length);
-
-	// TODO cambiar el 3 por una variable calculada
 	for (int i = 0; i < length; i++) {
 		Task *task = &(setr[i]);
 		xTaskCreate(thread1, task->name, 256, (void*) task,
