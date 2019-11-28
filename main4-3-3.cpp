@@ -163,7 +163,7 @@ void thread5(void *params) {
 	startTime = xTaskGetTickCount();
 
 	while (1) {
-		if (xQueueReceive(xQueue4, &message, portMAX_DELAY)) { // @suppress("Invalid arguments")
+		if (xQueueReceive(xQueue5, &message, portMAX_DELAY)) { // @suppress("Invalid arguments")
 			pc.printf("\n T5 Recibio un mensaje, ya puede ejecutar.\n\r");
 
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name,
@@ -177,7 +177,7 @@ void thread5(void *params) {
 }
 
 /**
- * Tarea 1 → Tarea 3; Tarea 2 → Tarea 3
+ * Tarea 1 → Tarea 2 → Tarea 5; Tarea 2 → Tarea 4; Tarea 3 → Tarea 5
  * */
 int main() {
 // Initializes the trace recorder, but does not start the tracing.
