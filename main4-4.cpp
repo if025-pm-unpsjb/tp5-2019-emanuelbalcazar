@@ -106,10 +106,6 @@ void thread1(void *params) {
 		pc.printf("Tarea [%s] - inicio: %d - fin: %d - instancia: %d\n\r",
 				task->name, startTime, endTime, instance);
 
-		if (xTaskGetTickCount() > (startTime + task->t * 1000)) {
-			printf("\nSe vencio la tarea %s\n\r", task->name);
-		}
-
 		instance++;
 		vTaskDelayUntil(&startTime, xFrequency);
 	}

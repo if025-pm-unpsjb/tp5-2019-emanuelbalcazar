@@ -19,9 +19,9 @@ struct Task {
 	int d;
 };
 
-Task task1 = { "t1", 1, 1, 3, 4 };
-Task task2 = { "t2", 1, 2, 3, 5 };
-Task task3 = { "t3", 1, 3, 3, 6 };
+Task task1 = { "t1", 1, 2, 4, 4 };
+Task task2 = { "t2", 1, 1, 4, 5 };
+Task task3 = { "t3", 1, 1, 4, 6 };
 
 Task *t1 = &task1;
 Task *t2 = &task2;
@@ -55,7 +55,7 @@ void thread1(void *params) {
 			// ejecuto
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name,
 					instance);
-			wait_without_block(1000);
+			wait_without_block(task->c * 1000);
 
 			if ( xQueueSend(xQueue2, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 				pc.printf("\nMensaje de T1 a T2\n\r");
@@ -70,7 +70,7 @@ void thread1(void *params) {
 
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name, instance);
 
-			wait_without_block(1000);
+			wait_without_block(task->c * 1000);
 
 			if ( xQueueSend(xQueue2, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 				pc.printf("\nMensaje de T1 a T2\n\r");
@@ -79,8 +79,8 @@ void thread1(void *params) {
 			}
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
 		instance++;
+		vTaskDelayUntil(&startTime, task->t * 1000);
 	}
 }
 
@@ -100,7 +100,7 @@ void thread2(void *params) {
 
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name,
 					instance);
-			wait_without_block(1000);
+			wait_without_block(task->c * 1000);
 
 			if ( xQueueSend(xQueue3, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 				pc.printf("\nMensaje de T2 a T3\n\r");
@@ -110,8 +110,8 @@ void thread2(void *params) {
 
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
 		instance++;
+		vTaskDelayUntil(&startTime, task->t * 1000);
 	}
 }
 
@@ -131,7 +131,7 @@ void thread3(void *params) {
 
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name,
 					instance);
-			wait_without_block(1000);
+			wait_without_block(task->c * 1000);
 
 			if ( xQueueSend(xQueue1, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 				pc.printf("\nMensaje de T3 a T1\n\r");
@@ -140,8 +140,8 @@ void thread3(void *params) {
 			}
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
 		instance++;
+		vTaskDelayUntil(&startTime, task->t * 1000);
 	}
 }
 

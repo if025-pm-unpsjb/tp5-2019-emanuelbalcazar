@@ -19,11 +19,11 @@ struct Task {
 	int d;
 };
 
-Task task1 = { "t1", 1, 1, 3, 4 };
-Task task2 = { "t2", 1, 4, 3, 5 };
-Task task3 = { "t3", 1, 2, 3, 6 };
-Task task4 = { "t4", 1, 4, 3, 6 };
-Task task5 = { "t5", 1, 4, 3, 6 };
+Task task1 = { "t1", 1, 0, 6, 3 };
+Task task2 = { "t2", 3, 2, 6, 3 };
+Task task3 = { "t3", 1, 1, 6, 3 };
+Task task4 = { "t4", 4, 3, 6, 3 };
+Task task5 = { "t5", 5, 3, 6, 3 };
 
 Task *t1 = &task1;
 Task *t2 = &task2;
@@ -178,6 +178,7 @@ void thread5(void *params) {
 
 /**
  * Tarea 1 → Tarea 2 → Tarea 5; Tarea 2 → Tarea 4; Tarea 3 → Tarea 5
+ * Revisar!
  * */
 int main() {
 // Initializes the trace recorder, but does not start the tracing.

@@ -19,9 +19,9 @@ struct Task {
 	int d;
 };
 
-Task task1 = { "t1", 1, 1, 3, 4 };
-Task task2 = { "t2", 1, 2, 3, 5 };
-Task task3 = { "t3", 1, 3, 3, 6 };
+Task task1 = { "t1", 1, 2, 4, 4 };
+Task task2 = { "t2", 2, 1, 4, 5 };
+Task task3 = { "t3", 3, 1, 4, 6 };
 
 Task *t1 = &task1;
 Task *t2 = &task2;
@@ -52,7 +52,7 @@ void thread1(void *params) {
 	while (1) {
 
 		pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name, instance);
-		wait_without_block(1000);
+		wait_without_block(task->c * 1000);
 
 		if ( xQueueSend(xQueue3, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 			pc.printf("\nMensaje de T1 a T3\n\r");
@@ -60,7 +60,7 @@ void thread1(void *params) {
 			pc.printf("\nNo se pudo enviar el mensaje de T1 a T3\n\r");
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
+		vTaskDelayUntil(&startTime, task->t * 1000);
 		instance++;
 	}
 }
@@ -77,7 +77,7 @@ void thread2(void *params) {
 	while (1) {
 
 		pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name, instance);
-		wait_without_block(1000);
+		wait_without_block(task->c * 1000);
 
 		if ( xQueueSend(xQueue3, (void* ) &message, portMAX_DELAY) == pdTRUE) { // @suppress("Invalid arguments")
 			pc.printf("\nMensaje de T2 a T3\n\r");
@@ -85,7 +85,7 @@ void thread2(void *params) {
 			pc.printf("\nNo se pudo enviar el mensaje de T2 a T3\n\r");
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
+		vTaskDelayUntil(&startTime, task->t * 1000);
 		instance++;
 	}
 }
@@ -106,10 +106,10 @@ void thread3(void *params) {
 
 			pc.printf("\n> Tarea [%s] - instancia: %d\n\r", task->name,
 					instance);
-			wait_without_block(1000);
+			wait_without_block(task->c * 1000);
 		}
 
-		vTaskDelayUntil(&startTime, 2000);
+		vTaskDelayUntil(&startTime, task->t * 1000);
 		instance++;
 	}
 }
